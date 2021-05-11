@@ -50,3 +50,11 @@ html[data-theme="Primary"] {
     transform: rotate(360deg);
   }
 }
+
+.row {
+  margin: 0;
+}
+
+.pointer {
+  cursor: pointer;
+}

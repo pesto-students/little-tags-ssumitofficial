@@ -1,11 +1,11 @@
-import Pagination from '../Pagination/Pagination';
+import Header from '../Header/Header.jsx';
+import Home from '../Home/Home.jsx';
 
-export default function () {
-    const onPageChange = (page) => {
-        console.log(page);
-    }
+export default function Main() {
     return (
-        <Pagination totalRecords={100} pageSize={10} pageNumber={5} onPageChange={onPageChange}></Pagination>
-        // <div>Welcome to Little Tag</div>
+        <div className="row">
+            <Header></Header>
+            <Home></Home>
+        </div>
     );
 }
