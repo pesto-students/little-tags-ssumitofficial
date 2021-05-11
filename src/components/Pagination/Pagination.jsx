@@ -16,7 +16,7 @@ export default function Pagination({ totalRecords, pageSize, pageNumber, onPageC
     const content = pager.pages.map((page) => {
         return (
             <li key={page} className={`pagination-page page-item ${pager.currentPage === page ? 'active' : ''}`}>
-                <a className="page-link" onClick={setPage.bind(this, page)}>{page}</a>
+                <button className="page-link" onClick={setPage.bind(this, page)}>{page}</button>
             </li>
         )
     })
@@ -25,39 +25,39 @@ export default function Pagination({ totalRecords, pageSize, pageNumber, onPageC
             <div className="col-12">
                 <ul className="pagination">
                     <li className={`pagination-first page-item ${pageNumber === 1 ? 'disabled' : ''}`}>
-                        <a className="page-link" onClick={setPage.bind(this, 1)}>
+                        <button className="page-link" onClick={setPage.bind(this, 1)}>
                             <i className="fa fa-step-backward fa-xs" aria-hidden="true"></i>
-                        </a>
+                        </button>
                     </li>
                     <li className={`pagination-prev page-item ${pager.currentPage === 1 ? 'disabled' : ''}`}>
-                        <a className="page-link" onClick={setPage.bind(this, pager.currentPage - 1)}>
+                        <button className="page-link" onClick={setPage.bind(this, pager.currentPage - 1)}>
                             <i className="fa fa-caret-left fa-xs" aria-hidden="true"></i>
-                        </a>
+                        </button>
                     </li>
                     {content}
                     {
                         (pager.totalPages - pager.startPage) > 5 ?
                             <li>
-                                <a className="page-link" onClick={setPage.bind(this, pager.startPage + 5)}>...</a>
+                                <button className="page-link" onClick={setPage.bind(this, pager.startPage + 5)}>...</button>
                             </li>
                             : ''
                     }
                     {
                         (pager.totalPages - pager.startPage) > 5 ?
                             <li>
-                                <a className="page-link" onClick={setPage.bind(this, pager.totalPages)}>{pager.totalPages}</a>
+                                <button className="page-link" onClick={setPage.bind(this, pager.totalPages)}>{pager.totalPages}</button>
                             </li>
                             : ''
                     }
                     <li className={`pagination-next page-item ${pager.currentPage === pager.totalPages ? 'disabled' : ''}`}>
-                        <a className="page-link" onClick={setPage.bind(this, pager.currentPage + 1)}>
+                        <button className="page-link" onClick={setPage.bind(this, pager.currentPage + 1)}>
                             <i className="fa fa-caret-right fa-xs" aria-hidden="true"></i>
-                        </a>
+                        </button>
                     </li>
                     <li className={`pagination-last page-item ${pager.currentPage === pager.totalPages ? 'disabled' : ''}`}>
-                        <a className="page-link" onClick={setPage.bind(this, pager.totalPages)}>
+                        <button className="page-link" onClick={setPage.bind(this, pager.totalPages)}>
                             <i className="fa fa-step-forward fa-xs" aria-hidden="true"></i>
-                        </a>
+                        </button>
                     </li>
                 </ul>
             </div>

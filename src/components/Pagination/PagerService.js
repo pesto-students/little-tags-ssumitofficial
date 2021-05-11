@@ -16,7 +16,7 @@ export default function PagerService(totalItems, currentPage, pageSize) {
             endPage = totalPages;
         } else {
 
-            if ((totalPages - (currentPage - 2)) == 5) {
+            if ((totalPages - (currentPage - 2)) === 5) {
                 startPage = currentPage - 1;
                 endPage = currentPage + 3;
             } else {
