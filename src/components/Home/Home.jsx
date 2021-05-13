@@ -4,7 +4,7 @@ import './Home.scss';
 
 export default function Home() {
     return (
-        <div className="home-container p-0 m-0">
+        <div className="home-container p-0 m-0 pb-5">
             <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
                 <div className="carousel-inner">
                     <div className="carousel-item active">
@@ -14,7 +14,7 @@ export default function Home() {
                     <img src="/assets/img/offer2.jpg" className="d-block w-100 slide-img" />
                     </div>
                     <div className="carousel-item">
-                    <img src="/assets/img/offer3.png" className="d-block w-100 slide-img" />
+                    <img src="/assets/img/offer3.jpg" className="d-block w-100 slide-img" />
                     </div>
                 </div>
                 <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -27,10 +27,35 @@ export default function Home() {
                 </a>
             </div>
 
-            <div className="row">
+            <div className="row mt-5">
                 <div className="col-12">
                     <h2><b>Categories</b></h2>
                 </div>
+            </div>
+
+            <div className="row">
+                <div className="col-1"></div>
+                <div className="col-4">
+                    <h4>Electronics</h4>
+                    <img src="/assets/img/cat-electronics.jpg" className="d-block w-100 category-img shadow-lg pointer" />
+                </div>
+                <div className="col-6 pl-5">
+                    <h4>Men Clothing</h4>
+                    <img src="/assets/img/cat-men.jpg" className="d-block w-100 category-img shadow-lg pointer" />
+                </div>
+                <div className="col-1"></div>
+            </div>
+            <div className="row mt-4">
+                <div className="col-1"></div>
+                <div className="col-6">
+                    <h4>Women Clothing</h4>
+                    <img src="/assets/img/cat-women.jpg" className="d-block w-100 category-img shadow-lg pointer" />
+                </div>
+                <div className="col-4">
+                    <h4>Jewellery</h4>
+                    <img src="/assets/img/cat-jewellery.jpg" className="d-block w-100 category-img shadow-lg pointer" />
+                </div>
+                <div className="col-1"></div>
             </div>
         </div>
     );

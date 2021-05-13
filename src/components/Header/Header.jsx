@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Sidebar from '../Sidebard/Sidebar.jsx';
-import PropTypes from 'prop-types';
 import './Header.scss';
 
 export default function Header() {
