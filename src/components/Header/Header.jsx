@@ -11,7 +11,9 @@ export default function Header() {
             <div className="row py-3 shadow-sm header">
                 <div className="col-6 text-left">
                     <i className="fa fa-bars pointer" aria-hidden="true" onClick={() => setIsHidden(false)}></i>
-                    <img className="logo ml-4" src="/assets/img/Logo.PNG" alt="LOGO" />
+                    <a href="/">
+                        <img className="logo ml-4" src="/assets/img/Logo.PNG" alt="LOGO" />
+                    </a>
                 </div>
                 <div className="col-4">
                     <div className="form-control">

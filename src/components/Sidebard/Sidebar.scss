@@ -41,10 +41,17 @@
         cursor: pointer;
         padding: 0.3rem 0.5rem;
         border-radius: 0.2rem;
+        a {
+            color: #212529;
+        }
     }
     li:hover {
         background-color: #7c7c7c;
         color: white;
+        a {
+            color: white;
+            text-decoration: none;
+        }
     }
 }
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Categories } from '../../Helpers/util.js';
+import { Categories } from '../../Helpers/Categories.js';
 import './Sidebar.scss';
 
 export default function Sidebar({ isHidden, handleCloseSidebar }) {
@@ -11,7 +11,8 @@ export default function Sidebar({ isHidden, handleCloseSidebar }) {
     }, [isHidden]);
 
     const categoryContent = Object.entries(Categories).map(element => {
-        return <li key={element[0]}>{element[1]}</li>
+        const url = `/products?category=${element[1].toLocaleLowerCase().replace(' ', '-')}`;
+        return <li key={element[0]}><a href={url}>{element[1]}</a></li>
     });
 
     return (
