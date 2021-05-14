@@ -42,8 +42,8 @@ export default function Home() {
                     </a>
                 </div>
                 <div className="col-6 pl-5">
-                    <h4>Men Clothing</h4>
-                    <a href="/products?category=men-clothing">
+                    <h4>Men's Clothing</h4>
+                    <a href="/products?category=men's-clothing">
                         <img src="/assets/img/cat-men.jpg" className="d-block w-100 category-img shadow-lg pointer" alt="Men Clothing"/>
                     </a>
                 </div>
@@ -52,8 +52,8 @@ export default function Home() {
             <div className="row mt-4">
                 <div className="col-1"></div>
                 <div className="col-6">
-                    <h4>Women Clothing</h4>
-                    <a href="/products?category=women-clothing">
+                    <h4>Women's Clothing</h4>
+                    <a href="/products?category=women's-clothing">
                         <img src="/assets/img/cat-women.jpg" className="d-block w-100 category-img shadow-lg pointer" alt="Women Clothing"/>
                     </a>
                 </div>

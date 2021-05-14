@@ -1,6 +1,6 @@
 export const Categories = {
-    Electronics: 'Electronics',
-    Jewelery: 'Jewelery',
-    MenClothing: 'Men Clothing',
-    WomenClothing: 'Women Clothing'
+    Electronics: "Electronics",
+    Jewelery: "Jewelery",
+    MenClothing: "Men's Clothing",
+    WomenClothing: "Women's Clothing"
 }
