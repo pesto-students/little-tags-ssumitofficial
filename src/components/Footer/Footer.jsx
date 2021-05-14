@@ -1,10 +1,11 @@
 import React from 'react';
-import { Categories } from '../../Helpers/util.js';
+import { Categories } from '../../Helpers/Categories.js';
 import './Footer.scss'
 
 export default function Footer() {
     const categoryContent = Object.entries(Categories).map(element => {
-        return <li key={element[0]} className="text-left pointer mb-2">{element[1]}</li>
+        const url = `/products?category=${element[1].toLocaleLowerCase().replace(' ', '-')}`;
+        return <li key={element[0]}><a href={url}>{element[1]}</a></li>
     });
 
     return (
@@ -20,11 +21,11 @@ export default function Footer() {
 
                 <div className="row mt-3 footer-content">We accept:
                     <div className="col-12 p-0 text-left">
-                        <img src="/assets/img/mastercard.png" className="img-payment mr-2" />
-                        <img src="/assets/img/jcb.png" className="img-payment mr-2" />
-                        <img src="/assets/img/paypal.png" className="img-payment mr-2" />
-                        <img src="/assets/img/visa.png" className="img-payment mr-2" />
-                        <img src="/assets/img/amazon.png" className="img-payment" />
+                        <img src="/assets/img/mastercard.png" className="img-payment mr-2" alt="Master Card"/>
+                        <img src="/assets/img/jcb.png" className="img-payment mr-2" alt="JCB"/>
+                        <img src="/assets/img/paypal.png" className="img-payment mr-2" alt="Paypal"/>
+                        <img src="/assets/img/visa.png" className="img-payment mr-2" alt="Visa"/>
+                        <img src="/assets/img/amazon.png" className="img-payment" alt="Amazon"/>
                     </div>
                 </div>
             </div>
@@ -33,7 +34,7 @@ export default function Footer() {
                     <label className="footer-title text-light"><b>Categories</b></label>
                 </div>
                 <div className="row mt-2">
-                    <ul className="category-list">
+                    <ul className="category-list text-left">
                         {categoryContent}
                     </ul>
                 </div>
@@ -45,10 +46,10 @@ export default function Footer() {
                 </div>
 
                 <div className="row mt-2">
-                    <div class="input-group input-group-sm mb-3">
-                        <input type="text" class="form-control" placeholder=" your email address" aria-describedby="basic-addon2" />
-                        <div class="input-group-append pointer">
-                            <span class="input-group-text" id="basic-addon2">Subscribe</span>
+                    <div className="input-group input-group-sm mb-3">
+                        <input type="text" className="form-control" placeholder=" your email address" aria-describedby="basic-addon2" />
+                        <div className="input-group-append pointer">
+                            <span className="input-group-text" id="basic-addon2">Subscribe</span>
                         </div>
                     </div>
                 </div>

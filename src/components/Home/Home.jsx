@@ -8,13 +8,13 @@ export default function Home() {
             <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
                 <div className="carousel-inner">
                     <div className="carousel-item active">
-                        <img src="/assets/img/offer1.jpg" className="d-block w-100 slide-img" />
+                        <img src="/assets/img/offer1.jpg" className="d-block w-100 slide-img" alt="Offer"/>
                     </div>
                     <div className="carousel-item">
-                    <img src="/assets/img/offer2.jpg" className="d-block w-100 slide-img" />
+                        <img src="/assets/img/offer2.jpg" className="d-block w-100 slide-img" alt="Offer"/>
                     </div>
                     <div className="carousel-item">
-                    <img src="/assets/img/offer3.jpg" className="d-block w-100 slide-img" />
+                        <img src="/assets/img/offer3.jpg" className="d-block w-100 slide-img" alt="Offer"/>
                     </div>
                 </div>
                 <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -37,23 +37,31 @@ export default function Home() {
                 <div className="col-1"></div>
                 <div className="col-4">
                     <h4>Electronics</h4>
-                    <img src="/assets/img/cat-electronics.jpg" className="d-block w-100 category-img shadow-lg pointer" />
+                    <a href="/products?category=electronics">
+                        <img src="/assets/img/cat-electronics.jpg" className="d-block w-100 category-img shadow-lg pointer" alt="Electronics"/>
+                    </a>
                 </div>
                 <div className="col-6 pl-5">
-                    <h4>Men Clothing</h4>
-                    <img src="/assets/img/cat-men.jpg" className="d-block w-100 category-img shadow-lg pointer" />
+                    <h4>Men's Clothing</h4>
+                    <a href="/products?category=men's-clothing">
+                        <img src="/assets/img/cat-men.jpg" className="d-block w-100 category-img shadow-lg pointer" alt="Men Clothing"/>
+                    </a>
                 </div>
                 <div className="col-1"></div>
             </div>
             <div className="row mt-4">
                 <div className="col-1"></div>
                 <div className="col-6">
-                    <h4>Women Clothing</h4>
-                    <img src="/assets/img/cat-women.jpg" className="d-block w-100 category-img shadow-lg pointer" />
+                    <h4>Women's Clothing</h4>
+                    <a href="/products?category=women's-clothing">
+                        <img src="/assets/img/cat-women.jpg" className="d-block w-100 category-img shadow-lg pointer" alt="Women Clothing"/>
+                    </a>
                 </div>
                 <div className="col-4">
                     <h4>Jewellery</h4>
-                    <img src="/assets/img/cat-jewellery.jpg" className="d-block w-100 category-img shadow-lg pointer" />
+                    <a href="/products?category=jewelery">
+                        <img src="/assets/img/cat-jewellery.jpg" className="d-block w-100 category-img shadow-lg pointer" alt="Jewelery"/>
+                    </a>
                 </div>
                 <div className="col-1"></div>
             </div>

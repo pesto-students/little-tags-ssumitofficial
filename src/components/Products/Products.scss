@@ -1,0 +1,34 @@
+.img-container {
+    height: 11rem;
+}
+
+.img-product {
+    height: 10rem;
+    max-width: 90%;
+}
+
+.img-product:hover {
+    height: 11rem;
+    max-width: 100%;
+}
+
+.product-card {
+    border-radius: 0.6rem;
+}
+
+.product-title {
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    color: #212529 !important;
+}
+
+.product-title:hover {
+    color: blue !important;
+}
+
+.product-title-container {
+    height: 3rem;
+}
