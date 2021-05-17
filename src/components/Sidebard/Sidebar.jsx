@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Categories } from '../../Helpers/Categories.js';
 import './Sidebar.scss';
 
 export default function Sidebar({ isHidden, handleCloseSidebar }) {
-    let className = isHidden ? 'sidebar sidebar-close' : 'sidebar shadow-lg sidebar-open';
+    const [className, setClassName] = useState(isHidden ? 'sidebar sidebar-close' : 'sidebar shadow-lg sidebar-open');
 
     useEffect(() => {
-        className = isHidden ? 'sidebar sidebar-close' : 'sidebar shadow-lg sidebar-open';
+        setClassName(isHidden ? 'sidebar sidebar-close' : 'sidebar shadow-lg sidebar-open')
     }, [isHidden]);
 
     const categoryContent = Object.entries(Categories).map(element => {
