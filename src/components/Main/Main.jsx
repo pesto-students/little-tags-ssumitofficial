@@ -4,6 +4,7 @@ import Header from '../Header/Header.jsx';
 import Home from '../Home/Home.jsx';
 import Footer from '../Footer/Footer.jsx';
 import Products from '../Products/Products.jsx';
+import ProductDetails from '../ProductDetails/ProductDetails.jsx';
 
 export default function Main() {
     return (
@@ -13,6 +14,9 @@ export default function Main() {
                 <Switch>
                     <Route path={ROUTES.PRODUCTS}>
                         <Products></Products>
+                    </Route>
+                    <Route path={ROUTES.PRODUCT}>
+                        <ProductDetails></ProductDetails>
                     </Route>
                     <Route path={ROUTES.HOME}>
                         <Home></Home>

@@ -10,28 +10,29 @@ export default function Products() {
         const category = new URLSearchParams(search).get('category');
 
         fetch('https://fakestoreapi.com/products')
-        .then((response) => response.json())
-        .then((productData) => {
-            if(category){
-                setProductList(productData.filter(p => p.category.toLowerCase().replace(' ', '-') === category.toLowerCase()));
-            }
-            else {
-                setProductList(productData);
-            }
-        });
+            .then((response) => response.json())
+            .then((productData) => {
+                if (category) {
+                    setProductList(productData.filter(p => p.category.toLowerCase().replace(' ', '-') === category.toLowerCase()));
+                }
+                else {
+                    setProductList(productData);
+                }
+            });
     }, []);
 
     const productContent = productList.map((product) => {
+        const productUrl = `/product?id=${product.id}`;
         return (
             <div className="col-3 mt-4 p-4" key={product.id}>
                 <div className="row border shadow pt-4 pb-3 product-card">
                     <div className="col-12 img-container">
-                        <a href="/#">
+                        <a href={productUrl}>
                             <img src={product.image} alt={product.title} className="img-product" />
                         </a>
                     </div>
                     <div className="col-12 mt-3 px-4 product-title-container">
-                        <a href="/#" className="product-title">
+                        <a href={productUrl} className="product-title">
                             <h6><b>{product.title}</b></h6>
                         </a>
                     </div>
