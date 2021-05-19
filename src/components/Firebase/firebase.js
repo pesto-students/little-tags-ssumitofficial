@@ -19,6 +19,10 @@ class Firebase {
     
     doGoogleSignIn = () => this.auth.signInWithPopup(this.googleAuthProvider);
 
+    logout = () => {
+        this.auth.signOut();
+    }
+
     user = (uid) => this.db.ref(`/users/${uid}`);
 
     onAuthChangeListener = (next, fallback = () => {}) => {
