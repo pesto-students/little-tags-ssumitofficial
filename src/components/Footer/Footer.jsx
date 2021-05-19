@@ -1,5 +1,5 @@
 import React from 'react';
-import { Categories } from '../../Helpers/Categories.js';
+import { Categories } from '../../constants/Categories.js';
 import './Footer.scss'
 
 export default function Footer() {

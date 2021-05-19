@@ -1,12 +1,13 @@
-import { BrowserRouter, Switch, Route } from "react-router-dom"
-import * as ROUTES from '../../Helpers/Routes.js';
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import withAuthentication from '../Session/withAuthentication';
+import * as ROUTES from '../../constants/Routes.js';
 import Header from '../Header/Header.jsx';
 import Home from '../Home/Home.jsx';
 import Footer from '../Footer/Footer.jsx';
 import Products from '../Products/Products.jsx';
 import ProductDetails from '../ProductDetails/ProductDetails.jsx';
 
-export default function Main() {
+function Main() {
     return (
         <div>
             <BrowserRouter>
@@ -27,3 +28,5 @@ export default function Main() {
         </div>
     );
 }
+
+export default withAuthentication(Main);

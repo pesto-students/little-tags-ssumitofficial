@@ -1,0 +1,32 @@
+.login-modal-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 98vw;
+    height: 98vh;
+    background-color: transparent;
+    position: absolute;
+    z-index: 999;
+}
+
+.login-modal {
+    background-color: white;
+    height: 13rem;
+    width: 22rem;
+    border-radius: 1rem;
+}
+
+.login-service-icon {
+    height: 2rem;
+}
+
+.google-login-btn {
+    background-color: #f7f7f7;
+    border-radius: 0.5rem;
+    color: #717171;
+    font-weight: 600;
+}
+
+.fa-times-circle-o {
+    font-size: 1.5rem;
+}

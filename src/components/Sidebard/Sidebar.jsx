@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Categories } from '../../Helpers/Categories.js';
+import withAutherization from '../Session/withAutherization'
+import { Categories } from '../../constants/Categories.js';
+import FirebaseContext from '../Firebase/context';
 import './Sidebar.scss';
 
-export default function Sidebar({ isHidden, handleCloseSidebar }) {
+function Sidebar({ isHidden, handleCloseSidebar, authUser }) {
+    const firebase = useContext(FirebaseContext);
     const [className, setClassName] = useState(isHidden ? 'sidebar sidebar-close' : 'sidebar shadow-lg sidebar-open');
 
     useEffect(() => {
@@ -14,6 +17,11 @@ export default function Sidebar({ isHidden, handleCloseSidebar }) {
         const url = `/products?category=${element[1].toLocaleLowerCase().replace(' ', '-')}`;
         return <li key={element[0]}><a href={url}>{element[1]}</a></li>
     });
+
+    const handleLogoutClick = () => {
+        firebase.logout();
+        handleCloseSidebar();
+    }
 
     return (
         <div className={className}>
@@ -44,7 +52,9 @@ export default function Sidebar({ isHidden, handleCloseSidebar }) {
                     </div>
                 </div>
 
-                <button className="btn btn-light btn-sm logout">Logout</button>
+                {
+                    !!authUser && <button className="btn btn-light btn-sm logout" onClick={handleLogoutClick}>Logout</button>
+                }
             </div>
         </div>
     );
@@ -54,3 +64,5 @@ Sidebar.propTypes = {
     isHidden: PropTypes.bool.isRequired,
     handleCloseSidebar: PropTypes.func.isRequired
 }
+
+export default withAutherization(Sidebar);

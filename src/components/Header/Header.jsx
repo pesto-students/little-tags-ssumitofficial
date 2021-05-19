@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
+import withAutherization from '../Session/withAutherization'
 import Sidebar from '../Sidebard/Sidebar.jsx';
+import Login from '../Login/Login.jsx'
 import './Header.scss';
 
-export default function Header() {
+function Header({ authUser }) {
     const [isHidden, setIsHidden] = useState(true);
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
     return (
         <div className="main-container">
+            {
+                !!isLoginModalOpen &&
+                <Login handleCloseLoginModal={() => setIsLoginModalOpen(false)}></Login>
+            }
             <Sidebar isHidden={isHidden} handleCloseSidebar={() => setIsHidden(true)}></Sidebar>
             <div className="row py-3 shadow-sm header">
                 <div className="col-6 text-left">
@@ -21,13 +28,22 @@ export default function Header() {
                         <input type="text" className="border-0 search-input" />
                     </div>
                 </div>
-                <div className="col-2 text-right">
-                    <button className="btn btn-primary">
-                        <i className="fa fa-sign-in mr-2" aria-hidden="true"></i>Login
-                </button>
+                <div className="col-2 text-right p-0 pr-2">
+                    {
+                        authUser ? 
+                            <span>
+                                <i className="fa fa-user-circle mr-2" aria-hidden="true"></i>
+                                Welcome {authUser.userName}
+                            </span>
+                            : <button className="btn btn-primary" onClick={() => setIsLoginModalOpen(true)}>
+                                <i className="fa fa-sign-in mr-2" aria-hidden="true"></i>Login</button>
+                    }
+
                     <i className="fa fa-shopping-cart ml-3 pointer" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
     );
 }
+
+export default withAutherization(Header);
