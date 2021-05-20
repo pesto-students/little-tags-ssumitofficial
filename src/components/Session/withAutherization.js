@@ -8,7 +8,8 @@ const withAutherization = (Component) => {
     }
 
     const mapStateToProps = (state) => ({
-        authUser: state.sessionState.authUser
+        authUser: state.sessionState.authUser,
+        cart: state.sessionState.cart
     });
 
     return withRouter(connect(mapStateToProps)(NewComponent));

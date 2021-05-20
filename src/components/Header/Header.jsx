@@ -4,7 +4,7 @@ import Sidebar from '../Sidebard/Sidebar.jsx';
 import Login from '../Login/Login.jsx'
 import './Header.scss';
 
-function Header({ authUser }) {
+function Header({ authUser, cart }) {
     const [isHidden, setIsHidden] = useState(true);
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
@@ -16,7 +16,7 @@ function Header({ authUser }) {
             }
             <Sidebar isHidden={isHidden} handleCloseSidebar={() => setIsHidden(true)}></Sidebar>
             <div className="row py-3 shadow-sm header">
-                <div className="col-6 text-left">
+                <div className="col-5 text-left">
                     <i className="fa fa-bars pointer" aria-hidden="true" onClick={() => setIsHidden(false)}></i>
                     <a href="/">
                         <img className="logo ml-4" src="/assets/img/Logo.PNG" alt="LOGO" />
@@ -28,7 +28,7 @@ function Header({ authUser }) {
                         <input type="text" className="border-0 search-input" />
                     </div>
                 </div>
-                <div className="col-2 text-right p-0 pr-2">
+                <div className="col-3 text-right p-0 pr-2">
                     {
                         authUser ? 
                             <span>
@@ -40,6 +40,11 @@ function Header({ authUser }) {
                     }
 
                     <i className="fa fa-shopping-cart ml-3 pointer" aria-hidden="true"></i>
+                    {
+                        cart && cart.length > 0 ?
+                        <label className="counter counter-lg text-center pointer">{cart.length}</label>
+                        : ''
+                    }
                 </div>
             </div>
         </div>

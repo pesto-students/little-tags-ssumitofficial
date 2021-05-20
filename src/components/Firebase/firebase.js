@@ -9,14 +9,14 @@ const config = {
     storageBucket: process.env.REACT_APP_STORAGE_BUCKET
 }
 class Firebase {
-    constructor(){
+    constructor() {
         app.initializeApp(config);
         this.db = app.database();
         this.auth = app.auth();
 
         this.googleAuthProvider = new app.auth.GoogleAuthProvider();
     }
-    
+
     doGoogleSignIn = () => this.auth.signInWithPopup(this.googleAuthProvider);
 
     logout = () => {
@@ -25,15 +25,22 @@ class Firebase {
 
     user = (uid) => this.db.ref(`/users/${uid}`);
 
-    onAuthChangeListener = (next, fallback = () => {}) => {
+    cart = (uid) => this.db.ref(`/cart/${uid}`);
+
+    onAuthChangeListener = (next, fallback = () => { }) => {
         return this.auth.onAuthStateChanged(authUser => {
-            if(authUser) {
-                const user = {
-                    uid: authUser.uid,
-                    email: authUser.email,
-                    userName: authUser.displayName
-                }
-                next(user);
+            if (authUser) {
+                this.cart(authUser.uid)
+                    .once('value')
+                    .then((snapshot) => {
+                        const dbCart = snapshot.val();
+                        const user = {
+                            uid: authUser.uid,
+                            email: authUser.email,
+                            userName: authUser.displayName
+                        }
+                        next(user, dbCart);
+                    });
             }
             else {
                 fallback();
