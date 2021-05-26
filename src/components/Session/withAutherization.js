@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -8,8 +8,7 @@ const withAutherization = (Component) => {
     }
 
     const mapStateToProps = (state) => ({
-        authUser: state.sessionState.authUser,
-        cart: state.sessionState.cart
+        authUser: state.sessionState.authUser
     });
 
     return withRouter(connect(mapStateToProps)(NewComponent));

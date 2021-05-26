@@ -6,6 +6,7 @@ import Home from '../Home/Home.jsx';
 import Footer from '../Footer/Footer.jsx';
 import Products from '../Products/Products.jsx';
 import ProductDetails from '../ProductDetails/ProductDetails.jsx';
+import Cart from '../Cart/Cart';
 
 function Main() {
     return (
@@ -18,6 +19,9 @@ function Main() {
                     </Route>
                     <Route path={ROUTES.PRODUCT}>
                         <ProductDetails></ProductDetails>
+                    </Route>
+                    <Route path={ROUTES.CART}>
+                        <Cart></Cart>
                     </Route>
                     <Route path={ROUTES.HOME}>
                         <Home></Home>

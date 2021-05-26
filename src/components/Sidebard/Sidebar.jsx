@@ -5,7 +5,7 @@ import { Categories } from '../../constants/Categories.js';
 import FirebaseContext from '../Firebase/context';
 import './Sidebar.scss';
 
-function Sidebar({ isHidden, handleCloseSidebar, authUser }) {
+function Sidebar({ isHidden, handleCloseSidebar, handleAddresModalDisplay, authUser }) {
     const firebase = useContext(FirebaseContext);
     const [className, setClassName] = useState(isHidden ? 'sidebar sidebar-close' : 'sidebar shadow-lg sidebar-open');
 
@@ -47,7 +47,7 @@ function Sidebar({ isHidden, handleCloseSidebar, authUser }) {
                     <div className="text-left pull-left pt-3 pl-5">
                         <ul className="list">
                             <li>Past Orders</li>
-                            <li>Add Address</li>
+                            <li onClick={() => handleAddresModalDisplay(true)}>Add Address</li>
                         </ul>
                     </div>
                 </div>

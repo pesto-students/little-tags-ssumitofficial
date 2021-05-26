@@ -7,12 +7,18 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './store';
+import { CartContextProvider } from './contexts/Cart'
+import { TostrContextProvider } from './contexts/Tostr'
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <FirebaseContext.Provider value={new Firebase()}>
-        <App />
+        <CartContextProvider>
+          <TostrContextProvider>
+            <App />
+          </TostrContextProvider>
+        </CartContextProvider>
       </FirebaseContext.Provider>
     </Provider>
   </React.StrictMode>,

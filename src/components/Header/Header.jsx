@@ -1,20 +1,41 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import withAutherization from '../Session/withAutherization'
 import Sidebar from '../Sidebard/Sidebar.jsx';
 import Login from '../Login/Login.jsx'
+import Address from '../Address/Address'
+import { CartContext } from '../../contexts/Cart'
 import './Header.scss';
 
-function Header({ authUser, cart }) {
+function Header({ authUser }) {
     const [isHidden, setIsHidden] = useState(true);
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+    const [cart] = useContext(CartContext);
+
+    const handleAddresModalDisplay = (isOpen) => {
+        if (isOpen) {
+            setIsHidden(true);
+            if (!authUser) {
+                setIsLoginModalOpen(true);
+                return;
+            }
+            else {
+                setIsAddressModalOpen(isOpen);
+            }
+        }
+        setIsAddressModalOpen(isOpen);
+    }
 
     return (
         <div className="main-container">
             {
+                !!isAddressModalOpen && <Address handleClose={handleAddresModalDisplay}></Address>
+            }
+            {
                 !!isLoginModalOpen &&
                 <Login handleCloseLoginModal={() => setIsLoginModalOpen(false)}></Login>
             }
-            <Sidebar isHidden={isHidden} handleCloseSidebar={() => setIsHidden(true)}></Sidebar>
+            <Sidebar isHidden={isHidden} handleCloseSidebar={() => setIsHidden(true)} handleAddresModalDisplay={handleAddresModalDisplay}></Sidebar>
             <div className="row py-3 shadow-sm header">
                 <div className="col-5 text-left">
                     <i className="fa fa-bars pointer" aria-hidden="true" onClick={() => setIsHidden(false)}></i>
@@ -30,7 +51,7 @@ function Header({ authUser, cart }) {
                 </div>
                 <div className="col-3 text-right p-0 pr-2">
                     {
-                        authUser ? 
+                        authUser ?
                             <span>
                                 <i className="fa fa-user-circle mr-2" aria-hidden="true"></i>
                                 Welcome {authUser.userName}
@@ -39,12 +60,14 @@ function Header({ authUser, cart }) {
                                 <i className="fa fa-sign-in mr-2" aria-hidden="true"></i>Login</button>
                     }
 
-                    <i className="fa fa-shopping-cart ml-3 pointer" aria-hidden="true"></i>
-                    {
-                        cart && cart.length > 0 ?
-                        <label className="counter counter-lg text-center pointer">{cart.length}</label>
-                        : ''
-                    }
+                    <a href="/cart" className="text-dark">
+                        <i className="fa fa-shopping-cart ml-3 pointer" aria-hidden="true"></i>
+                        {
+                            cart && cart.length > 0 ?
+                                <label className="counter counter-lg text-center pointer">{cart.length}</label>
+                                : ''
+                        }
+                    </a>
                 </div>
             </div>
         </div>

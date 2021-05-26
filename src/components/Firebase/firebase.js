@@ -27,6 +27,8 @@ class Firebase {
 
     cart = (uid) => this.db.ref(`/cart/${uid}`);
 
+    address = (uid) => this.db.ref(`/address/${uid}`);
+
     onAuthChangeListener = (next, fallback = () => { }) => {
         return this.auth.onAuthStateChanged(authUser => {
             if (authUser) {

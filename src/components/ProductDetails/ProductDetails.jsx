@@ -1,19 +1,25 @@
 import React, { useState, useEffect, useContext } from 'react';
 import FirebaseContext from '../Firebase/context';
+import { CartContext } from '../../contexts/Cart'
 import { useLocation } from "react-router-dom";
 import withAutherization from '../Session/withAutherization';
 import Login from '../Login/Login.jsx'
+import * as ACTIONS from '../../constants/ActionType'
 import './ProductDetails.scss'
 
-function ProductDetails({ authUser, cart }) {
+const INCREASE_QTY = 'INCREASE_QTY'
+const DECREASE_QTY = 'DECREASE_QTY'
+
+function ProductDetails({ authUser }) {
     const [productDetails, setProductDetails] = useState();
     const [errorMessage, setErrorMessage] = useState();
-    const [quantity, setQuantity] = useState(1);
-    const [size, setSize] = useState();
+    const [quantity, setQuantity] = useState(0);
+    const [size, setSize] = useState('S');
     const [isAddedToCart, setIsAddedToCart] = useState(false);
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const search = useLocation().search;
     const firebase = useContext(FirebaseContext);
+    const [cart, setCart] = useContext(CartContext);
 
     useEffect(() => {
         const productId = new URLSearchParams(search).get('id');
@@ -23,9 +29,6 @@ function ProductDetails({ authUser, cart }) {
             .then((productData) => {
                 setProductDetails(productData);
                 setErrorMessage();
-                if (productData.category === `men's clothing` || productData.category === `women's clothing`) {
-                    setSize('S');
-                }
             })
             .catch((error) => {
                 setErrorMessage('Failed to fetch product details');
@@ -34,56 +37,96 @@ function ProductDetails({ authUser, cart }) {
 
     useEffect(() => {
         if (cart) {
-            if (cart.filter(p => p.productId === productDetails?.id).length > 0) {
-                setIsAddedToCart(true);
-                return;
-            }
+            cart.forEach(product => {
+                if(product.productId === productDetails?.id) {
+                    setQuantity(product.quantity);
+                    setSize(product.size);
+                    setIsAddedToCart(true);
+                }
+            });
         }
         else {
             setIsAddedToCart(false);
         }
     }, [productDetails]);
 
-    const handleOnClick = (number) => {
-        if (number < 0 && quantity === 1) {
-            return;
+    const handleSizeChange = (newSize) => {
+        setSize(newSize);
+        if (!cart) cart = [];
+
+        let isUpdated = false;
+        const updatedCart = cart.map((product) => {
+            if(product.productId === productDetails.id) {
+                product.size = newSize;
+                isUpdated = true;
+            }
+            return product;
+        });
+
+        if(isUpdated) {
+            firebase.cart(authUser.uid).set([...updatedCart]);
+            localStorage.setItem('cart', JSON.stringify([...updatedCart]));
         }
-        setQuantity(quantity + number);
     }
 
-    const handleSizeChange = (size) => {
-        setSize(size);
-    }
-
-    const handleAddToCartClick = () => {
+    const handleChangeCart = (action) => {
         if (!authUser) {
             setIsLoginModalOpen(true);
             return;
         }
 
-        if (!cart) {
-            cart = [];
+        if(action === INCREASE_QTY) {
+            let isUpdated = false;
+            let updatedCart = cart.map((product) => {
+                if(product.productId === productDetails?.id) {
+                    product.quantity += 1;
+                    isUpdated = true;
+                    setQuantity(product.quantity);
+                }
+                return product;
+            });
+
+            if(!isUpdated) {
+                let newProduct = {
+                    'productId': productDetails?.id,
+                    'quantity': 1
+                }
+                if (productDetails.category === `men's clothing`
+                || productDetails.category === `women's clothing`) newProduct.size = size;
+                setQuantity(1);
+
+                updatedCart = [...cart, newProduct];
+            }
+
+
+            setCart(updatedCart);
+            firebase.cart(authUser.uid).set([...updatedCart]);
+            localStorage.setItem('cart', JSON.stringify([...updatedCart]));
+            setIsAddedToCart(true);
         }
 
-        let newProduct = {
-            'productId': productDetails.id,
-            'quantity': quantity
-        }
-        if (size) {
-            newProduct.size = size
-        }
+        if(action === DECREASE_QTY) {
+            let updatedCart = [];
+            if(quantity === 1) {
+                updatedCart = cart.filter(x => x.productId !== productDetails.id);
+                setIsAddedToCart(false);
+                setQuantity(0);
+            }
 
-        firebase.cart(authUser.uid).set([...cart, newProduct]);
-        localStorage.setItem('cart', JSON.stringify([...cart, newProduct]));
-        setIsAddedToCart(true);
-    }
+            if(quantity > 1) {
+                updatedCart = cart.map((product) => {
+                    if(product.productId === productDetails.id) {
+                        product.quantity -= 1;
+                        setQuantity(product.quantity);
+                    }
+                    return product;
+                });
+            }
 
-    const handleRemoveFromCart = () => {
-        if(!cart) cart = [];
-        const newCart = cart.filter(x => x.productId !== productDetails.id);
-        firebase.cart(authUser.uid).set(newCart);
-        localStorage.setItem('cart', JSON.stringify(newCart));
-        setIsAddedToCart(false);
+            setCart(updatedCart);
+            firebase.cart(authUser.uid).set([...updatedCart]);
+            localStorage.setItem('cart', JSON.stringify([...updatedCart]));
+        }
     }
 
     if (errorMessage || !productDetails) {
@@ -119,17 +162,8 @@ function ProductDetails({ authUser, cart }) {
                         </div>
 
                         {
-                            isAddedToCart ? '' :
-                                <div className="col-12 text-left mt-2 d-flex">
-                                    <i className="fa fa-minus-square pointer" aria-hidden="true" onClick={() => handleOnClick(-1)}></i>
-                                    <input type="number" className="mx-2 px-1 input-qty text-center" value={quantity} onChange={({ target: { value } }) => setQuantity(value)} />
-                                    <i className="fa fa-plus-square pointer" aria-hidden="true" onClick={() => handleOnClick(+1)}></i>
-                                </div>
-                        }
-                        {
                             (productDetails.category === `men's clothing`
                                 || productDetails.category === `women's clothing`)
-                                && !isAddedToCart
                                 ?
                                 <div className="col-12 p-0">
                                     <div className="col-12 text-left mt-2 d-flex">
@@ -144,13 +178,14 @@ function ProductDetails({ authUser, cart }) {
 
                         {
                             isAddedToCart && authUser ?
-                                <div className="col-12 text-left mt-2">
-                                    <button className="btn btn-sm btn-primary" onClick={handleRemoveFromCart}>
-                                        Remove from Cart</button>
+                                <div className="col-12 text-left mt-2 d-flex">
+                                    <i className="fa fa-minus-square pointer" aria-hidden="true" onClick={() => handleChangeCart(DECREASE_QTY)}></i>
+                                    <span className="text-center qty">{quantity}</span>
+                                    <i className="fa fa-plus-square pointer" aria-hidden="true" onClick={() => handleChangeCart(INCREASE_QTY)}></i>
                                 </div>
                                 :
                                 <div className="col-12 text-left mt-2">
-                                    <button className="btn btn-sm btn-primary" onClick={handleAddToCartClick}>
+                                    <button className="btn btn-sm btn-primary" onClick={() => handleChangeCart(INCREASE_QTY)}>
                                         Add to Cart</button>
                                 </div>
                         }
