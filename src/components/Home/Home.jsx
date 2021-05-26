@@ -48,7 +48,7 @@ export default function Home() {
                 </div>
                 <div className="col-1"></div>
             </div>
-            <div className="row mt-4">
+            <div className="row mt-5 pt-2">
                 <div className="col-1"></div>
                 <div className="col-6">
                     <h4>Women's Clothing</h4>

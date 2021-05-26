@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
+import withAutherization from '../Session/withAutherization';
 import './Products.scss';
 
-export default function Products() {
+function Products({cart}) {
     const [productList, setProductList] = useState([]);
     const search = useLocation().search;
 
@@ -31,16 +32,13 @@ export default function Products() {
                             <img src={product.image} alt={product.title} className="img-product" />
                         </a>
                     </div>
-                    <div className="col-12 mt-3 px-4 product-title-container">
+                    <div className="col-12 mt-2">
+                        <h6 className="text-primary"><b>$ {product.price.toFixed(2)}</b></h6>
+                    </div>
+                    <div className="col-12 mt-1 px-4 product-title-container">
                         <a href={productUrl} className="product-title">
                             <h6><b>{product.title}</b></h6>
                         </a>
-                    </div>
-                    <div className="col-6 text-truncate text-left mt-3 pt-2">
-                        <h6 className="text-primary"><b>&#8377; {product.price.toFixed(2)}</b></h6>
-                    </div>
-                    <div className="col-6 mt-3">
-                        <button className="btn btn-primary btn-sm">Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -53,3 +51,5 @@ export default function Products() {
         </div>
     );
 }
+
+export default withAutherization(Products);

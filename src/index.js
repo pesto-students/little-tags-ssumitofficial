@@ -1,12 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux'
+import FirebaseContext from './components/Firebase/context';
+import Firebase from './components/Firebase/firebase';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import store from './store';
+import { CartContextProvider } from './contexts/Cart'
+import { TostrContextProvider } from './contexts/Tostr'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <FirebaseContext.Provider value={new Firebase()}>
+        <CartContextProvider>
+          <TostrContextProvider>
+            <App />
+          </TostrContextProvider>
+        </CartContextProvider>
+      </FirebaseContext.Provider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
