@@ -4,7 +4,6 @@ import { CartContext } from '../../contexts/Cart'
 import { useLocation } from "react-router-dom";
 import withAutherization from '../Session/withAutherization';
 import Login from '../Login/Login.jsx'
-import * as ACTIONS from '../../constants/ActionType'
 import './ProductDetails.scss'
 
 const INCREASE_QTY = 'INCREASE_QTY'

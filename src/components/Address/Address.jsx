@@ -47,10 +47,15 @@ function Address({ handleClose, authUser }) {
                 </div>
                 <div className="row text-left px-2 pt-2">
                     <div className="col-6 px-2">
+                        <label htmlFor="addressTitle">Address Title<span className="text-danger">*</span></label>
+                        <input type="text" className="form-control form-control-sm" name="addressTitle" placeholder="Home/Office" onChange={(e) => setFirstName(e.target.value)} value={firstName} />
+                    </div>
+                    <div className="col-6 px-2"></div>
+                    <div className="col-6 px-2 pt-2">
                         <label htmlFor="firstName">First Name<span className="text-danger">*</span></label>
                         <input type="text" className="form-control form-control-sm" name="firstName" onChange={(e) => setFirstName(e.target.value)} value={firstName} />
                     </div>
-                    <div className="col-6 px-2">
+                    <div className="col-6 px-2 pt-2">
                         <label htmlFor="lastName">Last Name<span className="text-danger">*</span></label>
                         <input type="text" className="form-control form-control-sm" name="lastName" onChange={(e) => setLastName(e.target.value)} value={lastName} />
                     </div>
@@ -72,7 +77,7 @@ function Address({ handleClose, authUser }) {
                     <div className="col-6 px-2">
                         <label>State<span className="text-danger">*</span></label>
                         <select className="form-control form-control-sm">
-                            <option value="0">Select City</option>
+                            <option value="0">Select State</option>
                             {stateContent}
                         </select>
                     </div>
