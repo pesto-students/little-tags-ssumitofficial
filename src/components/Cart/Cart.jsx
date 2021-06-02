@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import withAutherization from '../Session/withAutherization';
 import { CartContext } from '../../contexts/Cart';
 import FirebaseContext from '../Firebase/context';
+import SuccessOrder from '../SuccessOrder/SuccessOrder'
+import { TostrContext } from '../../contexts/Tostr'
 import './Cart.scss'
 
 const INCREASE_QTY = 'INCREASE_QTY'
@@ -9,17 +11,23 @@ const DECREASE_QTY = 'DECREASE_QTY'
 const REMOVE_ITEM = 'REMOVE_ITEM'
 
 function Cart({ authUser }) {
-    const [productList, setProductList] = useState([]);
+    const [showError, showSuccess] = useContext(TostrContext);
+    const [addressList, setAddressList] = useState([]);
     const [cart, setCart] = useContext(CartContext);
     const [deliveryCharge] = useState(5);
     const [taxRate] = useState(12);
+    const [isOrderPlaced, setIsOrderPlaced] = useState(false);
+    const [paymentMode, setPaymentMode] = useState();
+    const [deliveryAddress, setDeliveryAddress] = useState();
     const firebase = useContext(FirebaseContext);
 
     useEffect(() => {
-        fetch('https://fakestoreapi.com/products')
-            .then((response) => response.json())
-            .then((productData) => {
-                setProductList(productData);
+        firebase.address(authUser.uid)
+            .once('value')
+            .then((snapshot) => {
+                setAddressList(Object.keys(snapshot.val()).map((key) => {
+                    return { [key]: snapshot.val()[key] };
+                }));
             });
     }, []);
 
@@ -50,41 +58,66 @@ function Cart({ authUser }) {
         localStorage.setItem('cart', JSON.stringify([...updatedCart]));
     }
 
-    let total = 0;
-    const content = productList.map((product) => {
-        if (cart.filter(c => c.productId === product.id).length === 0) {
-            return '';
+    const handlePlaceOrderClick = () => {
+        if (!paymentMode || !deliveryAddress) {
+            showError('Error', 'Please selected required fields!');
+            return;
         }
 
-        const productUrl = `/product?id=${product.id}`;
-        const cartItem = cart.filter(c => c.productId === product.id)[0];
-        total += (product.price * cartItem.quantity);
-        return <div className="row mx-5 py-4">
+        const newOrder = {
+            'items': cart,
+            paymentMode, deliveryAddress
+        }
+
+        firebase.order(authUser.uid).push(newOrder);
+        firebase.cart(authUser.uid).set([]);
+        localStorage.setItem('cart', JSON.stringify([]));
+        setIsOrderPlaced(true);
+    }
+
+    let total = 0;
+    const content = cart.map((product) => {
+        const productUrl = `/product?id=${product.productId}`;
+        total += (product.price * product.quantity);
+
+        return <div className="row mx-5 py-4" key={product.productId}>
             <div className="col-2 p-0 text-left">
-                <img src={product.image} className="car-img" />
+                <img src={product.productImg} className="car-img" />
             </div>
             <div className="col-4 p-0 text-left">
                 <a href={productUrl} className="product-title">
-                    <h6><b>{product.title}</b></h6>
+                    <h6><b>{product.productTitle}</b></h6>
                 </a>
-                <span className="text-muted pointer remove-btn" onClick={() => handleQtyChange(product.id, REMOVE_ITEM)}>Remove</span>
+                <span className="text-muted pointer remove-btn" onClick={() => handleQtyChange(product.productId, REMOVE_ITEM)}>Remove</span>
             </div>
             <div className="col-2 p-0">
-                <i className="fa fa-minus-square pointer mr-3" aria-hidden="true" onClick={() => handleQtyChange(product.id, DECREASE_QTY)}></i>
-                <span className="text-center qty">{cartItem.quantity}</span>
-                <i className="fa fa-plus-square pointer ml-3" aria-hidden="true" onClick={() => handleQtyChange(product.id, INCREASE_QTY)}></i>
+                <i className="fa fa-minus-square pointer mr-3" aria-hidden="true" onClick={() => handleQtyChange(product.productId, DECREASE_QTY)}></i>
+                <span className="text-center qty">{product.quantity}</span>
+                <i className="fa fa-plus-square pointer ml-3" aria-hidden="true" onClick={() => handleQtyChange(product.productId, INCREASE_QTY)}></i>
             </div>
             <div className="col-2 text-right">
                 <b>${product.price.toFixed(2)}</b>
             </div>
             <div className="col-2 text-right">
-                <b>${(product.price * cartItem.quantity).toFixed(2)}</b>
+                <b>${total.toFixed(2)}</b>
             </div>
         </div>
     });
 
+
+    const addressContent = addressList.map((address) => {
+        const key = Object.keys(address)[0];
+        const title = address[key].addressTitle;
+
+        return <option key={key} value={key}>{title}</option>;
+    });
+
     return cart.length === 0 ? <h3>Cart is Empty!</h3> : (
         <div className="row">
+            {
+                isOrderPlaced ? <SuccessOrder></SuccessOrder>
+                    : ''
+            }
             <div className="col-9 p-0 px-5">
                 <div className="row mx-5 mt-4 pb-3 border-bottom">
                     <div className="col-6 text-left p-0">
@@ -151,8 +184,8 @@ function Cart({ authUser }) {
                 </div>
                 <div className="row mx-4 mt-4 border-bottom pb-4">
                     <div className="col-12 text-left p-0">
-                        <h6 className="cart-titles">Payment Mode</h6>
-                        <select className="form-control form-control-sm">
+                        <h6 className="cart-titles">Payment Mode<span className="text-danger">*</span></h6>
+                        <select className="form-control form-control-sm" onChange={(e) => setPaymentMode(e.target.value)}>
                             <option>Select</option>
                             <option value="COD">COD</option>
                             <option value="NET">Net Banking</option>
@@ -162,14 +195,15 @@ function Cart({ authUser }) {
                 </div>
                 <div className="row mx-4 mt-4 border-bottom pb-4">
                     <div className="col-12 text-left p-0">
-                        <h6 className="cart-titles">Delivery Address</h6>
-                        <select className="form-control form-control-sm">
+                        <h6 className="cart-titles">Delivery Address<span className="text-danger">*</span></h6>
+                        <select className="form-control form-control-sm" onChange={(e) => setDeliveryAddress(e.target.value)}>
                             <option>Select</option>
+                            {addressContent}
                         </select>
                     </div>
                 </div>
                 <div className="row mx-4 mt-4">
-                    <button className="btn btn-primary form-control form-control-sm">
+                    <button className="btn btn-primary form-control form-control-sm" onClick={handlePlaceOrderClick}>
                         PLACE ORDER
                     </button>
                 </div>

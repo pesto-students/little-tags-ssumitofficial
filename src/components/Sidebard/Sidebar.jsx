@@ -1,13 +1,15 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types';
 import withAutherization from '../Session/withAutherization'
 import { Categories } from '../../constants/Categories.js';
 import FirebaseContext from '../Firebase/context';
 import './Sidebar.scss';
 
-function Sidebar({ isHidden, handleCloseSidebar, handleAddresModalDisplay, authUser }) {
+function Sidebar({ isHidden, handleCloseSidebar, authUser }) {
     const firebase = useContext(FirebaseContext);
     const [className, setClassName] = useState(isHidden ? 'sidebar sidebar-close' : 'sidebar shadow-lg sidebar-open');
+    const history = useHistory();
 
     useEffect(() => {
         setClassName(isHidden ? 'sidebar sidebar-close' : 'sidebar shadow-lg sidebar-open')
@@ -21,6 +23,7 @@ function Sidebar({ isHidden, handleCloseSidebar, handleAddresModalDisplay, authU
     const handleLogoutClick = () => {
         firebase.logout();
         handleCloseSidebar();
+        history.push('/');
     }
 
     return (
@@ -47,7 +50,9 @@ function Sidebar({ isHidden, handleCloseSidebar, handleAddresModalDisplay, authU
                     <div className="text-left pull-left pt-3 pl-5">
                         <ul className="list">
                             <li>Past Orders</li>
-                            <li onClick={() => handleAddresModalDisplay(true)}>Add Address</li>
+                            {
+                                !!authUser && <li><a href="/my-address">Manage Address</a></li>
+                            }
                         </ul>
                     </div>
                 </div>

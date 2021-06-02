@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './TostrMessage.scss'
 
 export default function TostrMessage({ title, message, isError }) {
@@ -10,8 +10,8 @@ export default function TostrMessage({ title, message, isError }) {
                     <div className="col-2 p-0 d-flex pl-1">
                         {
                             isError ?
-                            <i class="fa fa-times-circle tostr-icons" aria-hidden="true"></i> :
-                            <i class="fa fa-check-circle tostr-icons" aria-hidden="true"></i>
+                            <i className="fa fa-times-circle tostr-icons" aria-hidden="true"></i> :
+                            <i className="fa fa-check-circle tostr-icons" aria-hidden="true"></i>
                         }
                     </div>
                     <div className="col-10 p-0">

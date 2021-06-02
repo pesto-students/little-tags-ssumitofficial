@@ -70,3 +70,7 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.w-5r {
+  width: 5rem !important;
+}
