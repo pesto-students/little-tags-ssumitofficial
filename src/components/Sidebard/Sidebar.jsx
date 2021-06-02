@@ -49,10 +49,8 @@ function Sidebar({ isHidden, handleCloseSidebar, authUser }) {
                 <div className="row">
                     <div className="text-left pull-left pt-3 pl-5">
                         <ul className="list">
-                            <li>Past Orders</li>
-                            {
-                                !!authUser && <li><a href="/my-address">Manage Address</a></li>
-                            }
+                            {!!authUser && <li><a href="/my-orders">My Orders</a></li>}
+                            {!!authUser && <li><a href="/my-address">Manage Address</a></li>}
                         </ul>
                     </div>
                 </div>

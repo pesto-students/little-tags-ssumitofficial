@@ -4,6 +4,7 @@ import { CartContext } from '../../contexts/Cart';
 import FirebaseContext from '../Firebase/context';
 import SuccessOrder from '../SuccessOrder/SuccessOrder'
 import { TostrContext } from '../../contexts/Tostr'
+import Months from '../../constants/Months';
 import './Cart.scss'
 
 const INCREASE_QTY = 'INCREASE_QTY'
@@ -64,9 +65,13 @@ function Cart({ authUser }) {
             return;
         }
 
+        const now = new Date();
+
         const newOrder = {
+            'dateTime': `${Months[now.getMonth()]}-${now.getDate()}-${now.getFullYear()}`,
             'items': cart,
-            paymentMode, deliveryAddress
+            'deliveryAddress': addressList.filter((address) => address[deliveryAddress])[0][deliveryAddress],
+            paymentMode
         }
 
         firebase.order(authUser.uid).push(newOrder);
