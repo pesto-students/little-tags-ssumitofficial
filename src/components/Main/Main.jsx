@@ -7,6 +7,8 @@ import Footer from '../Footer/Footer.jsx';
 import Products from '../Products/Products.jsx';
 import ProductDetails from '../ProductDetails/ProductDetails.jsx';
 import Cart from '../Cart/Cart';
+import ManageAddress from '../ManageAddress/ManageAddress'
+import MyOrders from '../MyOrders/MyOrders'
 
 function Main() {
     return (
@@ -16,6 +18,12 @@ function Main() {
                 <Switch>
                     <Route path={ROUTES.PRODUCTS}>
                         <Products></Products>
+                    </Route>
+                    <Route path={ROUTES.MANAGEADDRESS}>
+                        <ManageAddress></ManageAddress>
+                    </Route>
+                    <Route path={ROUTES.MYORDERS}>
+                        <MyOrders></MyOrders>
                     </Route>
                     <Route path={ROUTES.PRODUCT}>
                         <ProductDetails></ProductDetails>

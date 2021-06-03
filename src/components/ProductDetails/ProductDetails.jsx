@@ -4,7 +4,6 @@ import { CartContext } from '../../contexts/Cart'
 import { useLocation } from "react-router-dom";
 import withAutherization from '../Session/withAutherization';
 import Login from '../Login/Login.jsx'
-import * as ACTIONS from '../../constants/ActionType'
 import './ProductDetails.scss'
 
 const INCREASE_QTY = 'INCREASE_QTY'
@@ -89,7 +88,10 @@ function ProductDetails({ authUser }) {
             if(!isUpdated) {
                 let newProduct = {
                     'productId': productDetails?.id,
-                    'quantity': 1
+                    'quantity': 1,
+                    'productImg': productDetails.image,
+                    'productTitle': productDetails.title,
+                    'price': productDetails.price
                 }
                 if (productDetails.category === `men's clothing`
                 || productDetails.category === `women's clothing`) newProduct.size = size;

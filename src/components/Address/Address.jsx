@@ -1,24 +1,42 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Address.scss';
 import States from '../../assets/states.json';
 import withAutherization from '../Session/withAutherization'
 import FirebaseContext from '../Firebase/context'
 import { TostrContext } from '../../contexts/Tostr'
 
-function Address({ handleClose, authUser }) {
+function Address({ handleClose, authUser, address }) {
     const firebase = useContext(FirebaseContext);
     const [showError, showSuccess] = useContext(TostrContext);
 
-    const [error, setError] = useState();
+    const [addressTitle, setAddressTitle] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [address1, setAddress1] = useState('');
     const [address2, setAddress2] = useState('');
     const [city, setCity] = useState('');
-    const [state, setStte] = useState('0');
+    const [state, setState] = useState('0');
     const [pinCode, setPinCode] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
+    const [addressKey, setAddressKey] = useState();
+
+    useEffect(() => {
+        if (address) {
+            const key = Object.keys(address)[0];
+            setAddressKey(key);
+            setAddressTitle(address[key].addressTitle);
+            setFirstName(address[key].firstName);
+            setLastName(address[key].lastName);
+            setAddress1(address[key].address1);
+            setAddress2(address[key].address2);
+            setCity(address[key].city);
+            setState(address[key].state);
+            setPinCode(address[key].pinCode);
+            setPhoneNumber(address[key].phoneNumber);
+            setEmail(address[key].email);
+        }
+    }, []);
 
     const stateContent = Object.entries(States).map(state => {
         return <option value={state[0]} key={state[0]}>{state[1]}</option>
@@ -35,6 +53,28 @@ function Address({ handleClose, authUser }) {
             showError('Error', 'Please fill all required fields!')
             return
         }
+
+        const newAddress = {
+            addressTitle,
+            firstName,
+            lastName,
+            address1,
+            address2,
+            city,
+            state,
+            pinCode,
+            phoneNumber,
+            email
+        }
+
+        if (addressKey) {
+            firebase.address(authUser.uid).child(addressKey).update(newAddress);
+        }
+        else {
+            firebase.address(authUser.uid).push(newAddress);
+        }
+        showSuccess('Success', 'Address saved successfully!');
+        handleClose();
     }
 
     return (
@@ -47,10 +87,15 @@ function Address({ handleClose, authUser }) {
                 </div>
                 <div className="row text-left px-2 pt-2">
                     <div className="col-6 px-2">
+                        <label htmlFor="addressTitle">Address Title<span className="text-danger">*</span></label>
+                        <input type="text" className="form-control form-control-sm" name="addressTitle" placeholder="Home/Office" onChange={(e) => setAddressTitle(e.target.value)} value={addressTitle} />
+                    </div>
+                    <div className="col-6 px-2"></div>
+                    <div className="col-6 px-2 pt-2">
                         <label htmlFor="firstName">First Name<span className="text-danger">*</span></label>
                         <input type="text" className="form-control form-control-sm" name="firstName" onChange={(e) => setFirstName(e.target.value)} value={firstName} />
                     </div>
-                    <div className="col-6 px-2">
+                    <div className="col-6 px-2 pt-2">
                         <label htmlFor="lastName">Last Name<span className="text-danger">*</span></label>
                         <input type="text" className="form-control form-control-sm" name="lastName" onChange={(e) => setLastName(e.target.value)} value={lastName} />
                     </div>
@@ -71,8 +116,8 @@ function Address({ handleClose, authUser }) {
                     </div>
                     <div className="col-6 px-2">
                         <label>State<span className="text-danger">*</span></label>
-                        <select className="form-control form-control-sm">
-                            <option value="0">Select City</option>
+                        <select className="form-control form-control-sm" value={state} onChange={(e) => setState(e.target.value)}>
+                            <option value="0">Select State</option>
                             {stateContent}
                         </select>
                     </div>

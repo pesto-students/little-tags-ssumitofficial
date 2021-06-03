@@ -1,41 +1,34 @@
 import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import withAutherization from '../Session/withAutherization'
 import Sidebar from '../Sidebard/Sidebar.jsx';
 import Login from '../Login/Login.jsx'
-import Address from '../Address/Address'
 import { CartContext } from '../../contexts/Cart'
 import './Header.scss';
 
 function Header({ authUser }) {
     const [isHidden, setIsHidden] = useState(true);
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-    const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
     const [cart] = useContext(CartContext);
+    let history = useHistory();
 
-    const handleAddresModalDisplay = (isOpen) => {
-        if (isOpen) {
-            setIsHidden(true);
-            if (!authUser) {
-                setIsLoginModalOpen(true);
-                return;
-            }
-            else {
-                setIsAddressModalOpen(isOpen);
-            }
+    const handleCartClick = () => {
+        setIsHidden(true);
+        if (!authUser) {
+            setIsLoginModalOpen(true);
+            return;
         }
-        setIsAddressModalOpen(isOpen);
+
+        history.push('/cart')
     }
 
     return (
         <div className="main-container">
             {
-                !!isAddressModalOpen && <Address handleClose={handleAddresModalDisplay}></Address>
-            }
-            {
                 !!isLoginModalOpen &&
                 <Login handleCloseLoginModal={() => setIsLoginModalOpen(false)}></Login>
             }
-            <Sidebar isHidden={isHidden} handleCloseSidebar={() => setIsHidden(true)} handleAddresModalDisplay={handleAddresModalDisplay}></Sidebar>
+            <Sidebar isHidden={isHidden} handleCloseSidebar={() => setIsHidden(true)}></Sidebar>
             <div className="row py-3 shadow-sm header">
                 <div className="col-5 text-left">
                     <i className="fa fa-bars pointer" aria-hidden="true" onClick={() => setIsHidden(false)}></i>
@@ -60,14 +53,12 @@ function Header({ authUser }) {
                                 <i className="fa fa-sign-in mr-2" aria-hidden="true"></i>Login</button>
                     }
 
-                    <a href="/cart" className="text-dark">
-                        <i className="fa fa-shopping-cart ml-3 pointer" aria-hidden="true"></i>
-                        {
-                            cart && cart.length > 0 ?
-                                <label className="counter counter-lg text-center pointer">{cart.length}</label>
-                                : ''
-                        }
-                    </a>
+                    <i className="fa fa-shopping-cart ml-3 pointer" aria-hidden="true" onClick={handleCartClick}></i>
+                    {
+                        cart && cart.length > 0 ?
+                            <label className="counter counter-lg text-center pointer">{cart.length}</label>
+                            : ''
+                    }
                 </div>
             </div>
         </div>
