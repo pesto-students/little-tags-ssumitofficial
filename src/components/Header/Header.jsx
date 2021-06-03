@@ -1,16 +1,20 @@
 import React, { useContext, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import withAutherization from '../Session/withAutherization'
 import Sidebar from '../Sidebard/Sidebar.jsx';
 import Login from '../Login/Login.jsx'
 import { CartContext } from '../../contexts/Cart'
 import './Header.scss';
 
+const ENTER_KEY = 13;
 function Header({ authUser }) {
     const [isHidden, setIsHidden] = useState(true);
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [cart] = useContext(CartContext);
+    const [searchText, setSearchText] = useState('');
     let history = useHistory();
+    const search = useLocation().search;
+    const category = new URLSearchParams(search).get('category');
 
     const handleCartClick = () => {
         setIsHidden(true);
@@ -20,6 +24,17 @@ function Header({ authUser }) {
         }
 
         history.push('/cart')
+    }
+
+    const handleSearchTextChange = (e) => {
+        if (e.charCode === ENTER_KEY) {
+            let url = '/products?';
+            if (category && category.length > 0) {
+                url += `category=${category}&&`;
+            }
+            url += `searchText=${searchText}`;
+            history.push(url);
+        }
     }
 
     return (
@@ -39,7 +54,7 @@ function Header({ authUser }) {
                 <div className="col-4">
                     <div className="form-control">
                         <i className="fa fa-search pull-left mt-1" aria-hidden="true"></i>
-                        <input type="text" className="border-0 search-input" />
+                        <input type="text" className="border-0 search-input" value={searchText} onKeyPress={(e) => handleSearchTextChange(e)} onChange={(e) => setSearchText(e.target.value)} />
                     </div>
                 </div>
                 <div className="col-3 text-right p-0 pr-2">

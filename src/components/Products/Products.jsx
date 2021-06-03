@@ -3,24 +3,40 @@ import { useLocation } from "react-router-dom";
 import withAutherization from '../Session/withAutherization';
 import './Products.scss';
 
-function Products({cart}) {
+function Products({ cart }) {
     const [productList, setProductList] = useState([]);
-    const search = useLocation().search;
+    const location = useLocation();
+    const search = location.search;
+    const [isProductNotFound, setIsProductNotFound] = useState(false);
 
     useEffect(() => {
         const category = new URLSearchParams(search).get('category');
+        const searchText = new URLSearchParams(search).get('searchText');
 
         fetch('https://fakestoreapi.com/products')
             .then((response) => response.json())
             .then((productData) => {
+                let newProductList;
                 if (category) {
-                    setProductList(productData.filter(p => p.category.toLowerCase().replace(' ', '-') === category.toLowerCase()));
+                    newProductList = productData.filter(p => p.category.toLowerCase().replace(' ', '-') === category.toLowerCase());
                 }
                 else {
-                    setProductList(productData);
+                    newProductList = productData;
                 }
+
+                if (searchText && searchText.length > 0) {
+                    newProductList = newProductList.filter(p => p.title.toLowerCase().includes(searchText.toLocaleLowerCase()));
+                }
+
+                if(newProductList.length == 0) {
+                    setIsProductNotFound(true);
+                }
+                else {
+                    setIsProductNotFound(false);
+                }
+                setProductList(newProductList);
             });
-    }, []);
+    }, [location]);
 
     const productContent = productList.map((product) => {
         const productUrl = `/product?id=${product.id}`;
@@ -47,7 +63,11 @@ function Products({cart}) {
 
     return (
         <div className="row">
-            { productContent}
+            { !isProductNotFound ? productContent :
+                <div className="col-12 mt-4">
+                    <h3>Product Not Found!</h3>
+                </div>
+            }
         </div>
     );
 }
