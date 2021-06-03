@@ -23,6 +23,8 @@ function Cart({ authUser }) {
     const firebase = useContext(FirebaseContext);
 
     useEffect(() => {
+        if(!authUser) return;
+        
         firebase.address(authUser.uid)
             .once('value')
             .then((snapshot) => {
