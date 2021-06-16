@@ -78,12 +78,13 @@ You are allowed to use static data or any other third party api for fetching dat
 
 ## Final Product
 
-| :------------------------------: | :------------------------: |
-|     ![](final-product/1.png)     |  ![](final-product/2.png)  |
-|     ![](final-product/3.png)     |  ![](final-product/4.png)  |
-|     ![](final-product/5.png)     |  ![](final-product/6.png)  |
-|     ![](final-product/7.png)     |  ![](final-product/8.png)  |
-|     ![](final-product/9.png)     |  ![](final-product/10.png) |
-|     ![](final-product/11.png)    |                            |
+|                                  |                                  |
+| :------------------------------: | :------------------------------: |
+|     ![](final-product/1.png)     |     ![](final-product/2.png)     |
+|     ![](final-product/3.png)     |     ![](final-product/4.png)     |
+|     ![](final-product/5.png)     |     ![](final-product/6.png)     |
+|     ![](final-product/7.png)     |     ![](final-product/8.png)     |
+|     ![](final-product/9.png)     |     ![](final-product/10.png)    |
+|     ![](final-product/11.png)    |                                  |
 
 Note: Your design for project should not be replica of ☝️ demos. these links are provided for inspiration purpose only.
