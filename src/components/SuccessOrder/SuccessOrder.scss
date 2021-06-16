@@ -1,0 +1,32 @@
+.order-modal-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 98vw;
+    height: 98vh;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+}
+
+.order-modal {
+    background-color: white;
+    width: 45rem;
+    border-radius: 0.5rem;
+    position: absolute;
+}
+
+.bg-gray {
+    background-color: #D5D5EA;
+}
+
+.success-icon {
+    color: #D5D5EA;
+    font-size: 9rem;
+}
+
+.w-7 {
+    width: 7rem;
+}

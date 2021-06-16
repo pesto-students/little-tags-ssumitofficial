@@ -1,0 +1,28 @@
+.modal-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 98vw;
+    height: 98vh;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+}
+
+.address-modal {
+    background-color: white;
+    width: 30rem;
+    border-radius: 0.5rem;
+    position: absolute;
+}
+
+input[type=text], label {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+label {
+    color: black;
+}

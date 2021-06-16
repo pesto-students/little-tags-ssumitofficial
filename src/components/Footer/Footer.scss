@@ -1,0 +1,27 @@
+.footer {
+    background-color: #32353c;
+}
+
+.footer-title {
+    font-size: 1.2rem;
+}
+
+.footer-content {
+    color: #6f6f6f;
+}
+
+.img-payment {
+    height: 1rem;
+}
+
+.category-list {
+    list-style: none;
+    a {
+        color: #6f6f6f;
+    }
+    li:hover {
+        a {
+            color: white;
+        }
+    }
+}
