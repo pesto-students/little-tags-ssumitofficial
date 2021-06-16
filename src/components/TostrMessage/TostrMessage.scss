@@ -1,0 +1,37 @@
+.tostr-container {
+    z-index: 9999;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    position: fixed;
+}
+
+.tostr {
+    width: 18rem;
+    border-radius: 0.3rem;
+    animation: animate 1s ease forwards;
+    animation-delay: 1s;
+}
+
+@keyframes animate {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.error {
+    background-color: #d90707;
+}
+
+.success {
+    background-color: #068f32;
+}
+
+.tostr-icons {
+    font-size: 2rem;
+}
+
+.d-flex {
+    align-items: center;
+}

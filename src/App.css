@@ -36,3 +36,27 @@
     transform: rotate(360deg);
   }
 }
+
+.row {
+  margin: 0;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.w-5r {
+  width: 5rem !important;
+}
